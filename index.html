@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jadwal Sholat</title>
+<meta name="description" content="Jadwal sholat harian dan bulanan untuk seluruh kabupaten/kota di Indonesia, bersumber dari Bimas Islam Kementerian Agama RI.">
+<meta name="theme-color" content="#0b1026">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="assets/img/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/icon.svg">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="assets/css/app.css?v=1.0.0">
+<script type="module" src="assets/js/app.js?v=1.0.0"></script>
+</head>
+<body data-phase="night">
+
+<div class="sky" aria-hidden="true">
+  <div class="sky-layer" data-sky="night"></div>
+  <div class="sky-layer" data-sky="dawn"></div>
+  <div class="sky-layer" data-sky="day"></div>
+  <div class="sky-layer" data-sky="afternoon"></div>
+  <div class="sky-layer" data-sky="dusk"></div>
+  <div class="stars"></div>
+  <div class="stars stars--far"></div>
+  <div class="pattern"></div>
+  <div class="orb" id="orb"></div>
+  <div class="horizon"></div>
+</div>
+
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f6c56f"/><stop offset="1" stop-color="#5eead4"/>
+    </linearGradient>
+  </defs>
+  <symbol id="i-crescent" viewBox="0 0 24 24"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11z"/></symbol>
+  <symbol id="i-imsak" viewBox="0 0 24 24"><path d="M18 14.5A7 7 0 1 1 9.5 6a5.5 5.5 0 0 0 8.5 8.5z"/><path d="M18 3v4M16 5h4"/></symbol>
+  <symbol id="i-subuh" viewBox="0 0 24 24"><path d="M3 19h18M7 19a5 5 0 0 1 10 0M12 3v6M9 6l3-3 3 3M4.5 13.5l1.4 1M19.5 13.5l-1.4 1"/></symbol>
+  <symbol id="i-terbit" viewBox="0 0 24 24"><path d="M3 19h18M6 19a6 6 0 0 1 12 0M12 6V4M5.6 10.6 4.2 9.2M18.4 10.6l1.4-1.4M2 15h2M20 15h2"/></symbol>
+  <symbol id="i-dhuha" viewBox="0 0 24 24"><circle cx="12" cy="13" r="4"/><path d="M12 4v2M12 20v1M5 13H3M21 13h-2M6.3 7.3 7.7 8.7M17.7 7.3l-1.4 1.4"/></symbol>
+  <symbol id="i-dzuhur" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></symbol>
+  <symbol id="i-ashar" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M9 2.5V3.5M3.5 8h1M5.1 4.1l.7.7M12.9 4.1l-.7.7"/><path d="M17.5 20H9a4 4 0 1 1 1.1-7.85A5 5 0 0 1 19.6 14a3 3 0 0 1-2.1 6z"/></symbol>
+  <symbol id="i-maghrib" viewBox="0 0 24 24"><path d="M3 19h18M7 19a5 5 0 0 1 10 0M12 9V3M9 6l3 3 3-3M4.5 13.5l1.4 1M19.5 13.5l-1.4 1"/></symbol>
+  <symbol id="i-isya" viewBox="0 0 24 24"><path d="M19 14.5A7.5 7.5 0 1 1 9.5 5a6 6 0 0 0 9.5 9.5z"/><path d="M19 4l.6 1.4L21 6l-1.4.6L19 8l-.6-1.4L17 6l1.4-.6z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></symbol>
+  <symbol id="i-locate" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7.5"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 8 2.5 8h-17S6 15 6 9z"/><path d="M10 20.5a2.2 2.2 0 0 0 4 0"/></symbol>
+  <symbol id="i-chev-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-chev-left" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></symbol>
+  <symbol id="i-chev-right" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-print" viewBox="0 0 24 24"><path d="M6 9V3h12v6M6 18H4a1 1 0 0 1-1-1v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1h-2"/><path d="M6 14h12v7H6z"/></symbol>
+  <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></symbol>
+</svg>
+
+<a class="skip-link" href="#main">Lewati ke konten utama</a>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark"><svg><use href="#i-crescent"/></svg></span>
+    <span class="brand-text"><strong>Jadwal Sholat</strong><small>Data Kemenag RI</small></span>
+  </div>
+  <div class="actions">
+    <button class="city-pill" id="btnCity" type="button" aria-haspopup="dialog" aria-controls="cityDialog">
+      <svg class="ico"><use href="#i-pin"/></svg>
+      <span class="city-pill__name" id="cityName">Memuat…</span>
+      <svg class="ico ico--sm"><use href="#i-chev-down"/></svg>
+    </button>
+    <button class="icon-btn" id="btnLocate" type="button" aria-label="Deteksi lokasi saya" title="Deteksi lokasi saya">
+      <svg class="ico"><use href="#i-locate"/></svg>
+    </button>
+    <button class="icon-btn" id="btnNotify" type="button" aria-pressed="false" aria-label="Pengingat waktu sholat" title="Pengingat waktu sholat">
+      <svg class="ico"><use href="#i-bell"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main" class="container">
+  <section class="hero" aria-label="Waktu saat ini">
+    <article class="glass clock-card reveal">
+      <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span><span id="regionLabel">Waktu setempat</span></p>
+      <div class="clock" role="timer" aria-live="off">
+        <span id="clockHM">--:--</span><span class="clock__sec" id="clockS">--</span>
+        <span class="clock__tz" id="tzLabel">WIB</span>
+      </div>
+      <p class="date" id="dateGreg">&nbsp;</p>
+      <p class="hijri" id="dateHijri">&nbsp;</p>
+    </article>
+
+    <article class="glass next-card reveal" aria-labelledby="nextName">
+      <div class="ring">
+        <svg viewBox="0 0 140 140" aria-hidden="true">
+          <circle class="ring__track" cx="70" cy="70" r="60"/>
+          <circle class="ring__bar" id="ringBar" cx="70" cy="70" r="60"/>
+        </svg>
+        <div class="ring__inner">
+          <svg class="ico ico--lg" id="nextIcon"><use href="#i-dzuhur"/></svg>
+          <span class="ring__pct" id="ringPct">0%</span>
+        </div>
+      </div>
+      <div class="next-info">
+        <p class="eyebrow">Menuju waktu</p>
+        <h2 class="next-name"><span id="nextName">—</span> <span class="arabic" id="nextArabic" lang="ar"></span></h2>
+        <div class="countdown" id="countdown" aria-live="off">--:--:--</div>
+        <p class="muted" id="nextAt">&nbsp;</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="today" aria-labelledby="todayTitle">
+    <div class="section-head">
+      <h2 id="todayTitle">Jadwal Hari Ini</h2>
+      <span class="badge" id="sourceBadge" title="Sumber: Bimas Islam Kementerian Agama RI">Kemenag RI</span>
+    </div>
+    <ol class="time-grid is-loading" id="timeGrid">
+      <li class="time-card glass is-aux" data-prayer="imsak"><span class="time-card__icon"><svg class="ico"><use href="#i-imsak"/></svg></span><span class="time-card__name">Imsak</span><span class="time-card__ar" lang="ar">إمساك</span><span class="time-card__time">--:--</span><span class="time-card__badge"></span></li>
+      <li class="time-card glass" data-prayer="subuh"><span class="time-card__icon"><svg class="ico"><use href="#i-subuh"/></svg></span><span class="time-card__name">Subuh</span><span class="time-card__ar" lang="ar">الفجر</span><span class="time-card__time">--:--</span><span class="time-card__badge"></span></li>
+      <li class="time-card glass is-aux" data-prayer="terbit"><span class="time-card__icon"><svg class="ico"><use href="#i-terbit"/></svg></span><span class="time-card__name">Terbit</span><span class="time-card__ar" lang="ar">الشروق</span><span class="time-card__time">--:--</span><span class="time-card__badge"></span></li>
+      <li class="time-card glass is-aux" data-prayer="dhuha"><span class="time-card__icon"><svg class="ico"><use href="#i-dhuha"/></svg></span><span class="time-card__name">Dhuha</span><span class="time-card__ar" lang="ar">الضحى</span><span class="time-card__time">--:--</span><span class="time-card__badge"></span></li>
+      <li class="time-card glass" data-prayer="dzuhur"><span class="time-card__icon"><svg class="ico"><use href="#i-dzuhur"/></svg></span><span class="time-card__name">Dzuhur</span><span class="time-card__ar" lang="ar">الظهر</span><span class="time-card__time">--:--</span><span class="time-card__badge"></span></li>
+      <li class="time-card glass" data-prayer="ashar"><span class="time-card__icon"><svg class="ico"><use href="#i-ashar"/></svg></span><span class="time-card__name">Ashar</span><span class="time-card__ar" lang="ar">العصر</span><span class="time-card__time">--:--</span><span class="time-card__badge"></span></li>
+      <li class="time-card glass" data-prayer="maghrib"><span class="time-card__icon"><svg class="ico"><use href="#i-maghrib"/></svg></span><span class="time-card__name">Maghrib</span><span class="time-card__ar" lang="ar">المغرب</span><span class="time-card__time">--:--</span><span class="time-card__badge"></span></li>
+      <li class="time-card glass" data-prayer="isya"><span class="time-card__icon"><svg class="ico"><use href="#i-isya"/></svg></span><span class="time-card__name">Isya</span><span class="time-card__ar" lang="ar">العشاء</span><span class="time-card__time">--:--</span><span class="time-card__badge"></span></li>
+    </ol>
+  </section>
+
+  <section class="glass monthly reveal" aria-labelledby="monthTitle">
+    <div class="section-head section-head--wrap">
+      <div>
+        <h2 id="monthTitle">Jadwal Bulanan</h2>
+        <p class="muted small" id="monthCity">&nbsp;</p>
+      </div>
+      <div class="month-nav">
+        <button class="icon-btn icon-btn--sm" id="monthPrev" type="button" aria-label="Bulan sebelumnya"><svg class="ico"><use href="#i-chev-left"/></svg></button>
+        <span class="month-label" id="monthLabel" aria-live="polite">—</span>
+        <button class="icon-btn icon-btn--sm" id="monthNext" type="button" aria-label="Bulan berikutnya"><svg class="ico"><use href="#i-chev-right"/></svg></button>
+        <button class="icon-btn icon-btn--sm" id="btnPrint" type="button" aria-label="Cetak jadwal bulanan" title="Cetak"><svg class="ico"><use href="#i-print"/></svg></button>
+      </div>
+    </div>
+    <div class="table-wrap" tabindex="0" aria-label="Tabel jadwal bulanan">
+      <table class="month-table">
+        <thead>
+          <tr><th scope="col">Tanggal</th><th scope="col">Imsak</th><th scope="col">Subuh</th><th scope="col">Terbit</th><th scope="col">Dhuha</th><th scope="col">Dzuhur</th><th scope="col">Ashar</th><th scope="col">Maghrib</th><th scope="col">Isya</th></tr>
+        </thead>
+        <tbody id="monthBody"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<footer class="footer container">
+  <p>Sumber data: <strong>Bimas Islam Kementerian Agama RI</strong> melalui API publik MyQuran. Tanggal Hijriah dihitung otomatis (Umm al-Qura) dan dapat berbeda ±1 hari dengan penetapan resmi.</p>
+</footer>
+
+<dialog class="city-dialog" id="cityDialog" aria-labelledby="cityDialogTitle">
+  <div class="city-dialog__head">
+    <h2 id="cityDialogTitle">Pilih Kabupaten / Kota</h2>
+    <button class="icon-btn icon-btn--sm" type="button" id="cityClose" aria-label="Tutup"><svg class="ico"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="search">
+    <svg class="ico"><use href="#i-search"/></svg>
+    <input id="cityInput" type="search" placeholder="Cari, mis. Bandung, Makassar…" autocomplete="off" spellcheck="false" maxlength="40"
+           role="combobox" aria-expanded="true" aria-controls="cityList" aria-autocomplete="list">
+  </div>
+  <p class="muted small city-dialog__hint" id="cityHint">Memuat daftar 500+ kabupaten/kota…</p>
+  <ul class="city-list" id="cityList" role="listbox" aria-label="Hasil pencarian kota"></ul>
+</dialog>
+
+<div class="toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>
+<noscript><p class="noscript">Aktifkan JavaScript untuk menampilkan jadwal sholat.</p></noscript>
+</body>
+</html>

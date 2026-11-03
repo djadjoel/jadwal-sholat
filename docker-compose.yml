@@ -1,0 +1,32 @@
+# Jadwal Sholat — siap deploy di Hostinger VPS (Docker Manager).
+#
+# Variabel lingkungan (opsional):
+#   DOMAIN  Nama domain yang sudah diarahkan (A record) ke IP VPS, mis. sholat.contoh.id.
+#           Bila diisi, Caddy otomatis memasang sertifikat HTTPS (Let's Encrypt).
+#           Bila kosong, aplikasi dilayani lewat HTTP di port 80.
+#           Catatan: deteksi lokasi & notifikasi browser hanya berfungsi lewat HTTPS.
+
+services:
+  app:
+    image: ghcr.io/USERNAME/jadwal-sholat:latest
+    restart: unless-stopped
+    volumes:
+      - storage:/var/www/html/storage
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    command: caddy reverse-proxy --from ${DOMAIN:-:80} --to app:80
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+
+volumes:
+  storage:
+  caddy_data:
+  caddy_config:

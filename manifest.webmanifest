@@ -1,0 +1,14 @@
+{
+  "name": "Jadwal Sholat — Kemenag RI",
+  "short_name": "Jadwal Sholat",
+  "description": "Jadwal sholat seluruh kabupaten/kota di Indonesia dari Bimas Islam Kemenag RI.",
+  "lang": "id",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b1026",
+  "theme_color": "#0b1026",
+  "icons": [
+    { "src": "assets/img/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

@@ -1,0 +1,9 @@
+.git
+.github
+.claude
+storage
+web.config
+docker-compose.yml
+Dockerfile
+README.md
+LICENSE
