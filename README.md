@@ -18,6 +18,11 @@ Aplikasi jadwal sholat untuk 500+ kabupaten/kota di Indonesia. Data dari **Bimas
 
 > Deteksi lokasi & notifikasi browser hanya berfungsi lewat **HTTPS**, jadi sebaiknya isi `DOMAIN`.
 
+### Vercel
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/djadjoel/jadwal-sholat)
+
+Impor repo ini di Vercel (Framework Preset: **Other**, tanpa build command). `vercel.json` menjalankan `api.php` lewat runtime komunitas [`vercel-php`](https://github.com/vercel-community/php) (PHP 8.3) dengan entrypoint `api/index.php`; berkas statis disajikan langsung oleh CDN Vercel. Cache memakai `/tmp` per instance (tidak permanen), jadi sesekali data diambil ulang dari Kemenag.
+
 ### Docker di server sendiri
 ```bash
 curl -O https://raw.githubusercontent.com/USERNAME/jadwal-sholat/main/docker-compose.yml

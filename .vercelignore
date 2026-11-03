@@ -1,0 +1,11 @@
+.git
+.github
+.claude
+storage
+Dockerfile
+docker-compose.yml
+.dockerignore
+.htaccess
+web.config
+README.md
+LICENSE

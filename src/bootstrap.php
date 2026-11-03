@@ -148,11 +148,23 @@ function remember(string $key, int $ttl, callable $fetch): array
     }
 }
 
+/** IP klien. Di Vercel, REMOTE_ADDR milik proxy internal; IP asli ada di header X-Real-IP yang diisi edge Vercel. */
+function client_ip(): string
+{
+    if (getenv('VERCEL') && is_string($_SERVER['HTTP_X_REAL_IP'] ?? null)) {
+        $ip = trim($_SERVER['HTTP_X_REAL_IP']);
+        if (filter_var($ip, FILTER_VALIDATE_IP)) {
+            return $ip;
+        }
+    }
+    return $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+}
+
 /** Rate limit fixed-window per IP (IP disimpan dalam bentuk hash). */
 function rate_limit(string $bucket, int $limit, int $window): void
 {
     $dir = storage('ratelimit');
-    $ip  = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+    $ip  = client_ip();
     $file = $dir . '/' . $bucket . '_' . substr(hash('sha256', $ip), 0, 32) . '.json';
 
     $h = @fopen($file, 'c+');
@@ -207,7 +219,7 @@ function send_json(array $payload, int $status = 200, int $maxAge = 0): never
         header('Cache-Control: no-store');
     }
 
-    if (strlen($body) > 1024 && function_exists('ob_gzhandler') && !ini_get('zlib.output_compression')) {
+    if (strlen($body) > 1024 && !getenv('VERCEL') && function_exists('ob_gzhandler') && !ini_get('zlib.output_compression')) {
         ob_start('ob_gzhandler');
     }
     echo $body;
