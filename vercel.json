@@ -24,7 +24,8 @@
     { "src": "/vercel\\.json", "status": 404 },
     { "src": "/api\\.php", "methods": ["GET", "HEAD"], "dest": "/api/index.php" },
     { "src": "/api\\.php", "status": 405, "headers": { "Allow": "GET, HEAD" } },
-    { "src": "/assets/(.*)", "headers": { "Cache-Control": "public, max-age=2592000" }, "continue": true },
+    { "src": "/assets/img/og-image\\.png", "headers": { "Cross-Origin-Resource-Policy": "cross-origin" }, "continue": true },
+    { "src": "/assets/(.*)","headers": { "Cache-Control": "public, max-age=2592000" }, "continue": true },
     { "src": "/manifest\\.webmanifest", "headers": { "Content-Type": "application/manifest+json", "Cache-Control": "public, max-age=86400" }, "continue": true },
     { "src": "/(|index\\.html|sw\\.js)", "headers": { "Cache-Control": "no-cache" }, "continue": true }
   ]

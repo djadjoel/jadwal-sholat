@@ -37,6 +37,7 @@ AddType application/manifest+json .webmanifest
     ExpiresByType text/javascript           "access plus 30 days"
     ExpiresByType application/javascript    "access plus 30 days"
     ExpiresByType image/svg+xml             "access plus 30 days"
+    ExpiresByType image/png                 "access plus 30 days"
     ExpiresByType application/manifest+json "access plus 1 day"
 </IfModule>
 
@@ -49,6 +50,13 @@ AddType application/manifest+json .webmanifest
         Header set Cache-Control "no-cache"
     </IfModule>
 </FilesMatch>
+
+# Gambar pratinjau Open Graph harus bisa diambil/ditampilkan oleh situs lain.
+<Files "og-image.png">
+    <IfModule mod_headers.c>
+        Header always set Cross-Origin-Resource-Policy "cross-origin"
+    </IfModule>
+</Files>
 
 # --- Kompresi (JSON API sudah dikompres oleh PHP) -----------------------------
 <IfModule mod_deflate.c>
