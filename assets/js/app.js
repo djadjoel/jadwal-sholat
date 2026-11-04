@@ -39,8 +39,43 @@ const addDays = (date, n) => { const [y, m, d] = date.split('-').map(Number); re
 const fmtGreg = new Intl.DateTimeFormat('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 const fmtMonth = new Intl.DateTimeFormat('id-ID', { month: 'long', year: 'numeric', timeZone: 'UTC' });
 const fmtWeekday = new Intl.DateTimeFormat('id-ID', { weekday: 'short', timeZone: 'UTC' });
-let fmtHijri = null;
-try { fmtHijri = new Intl.DateTimeFormat('id-ID-u-ca-islamic-umalqura', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }); } catch { /* tidak didukung */ }
+/* Tanggal Hijriah: ambil angka saja dari Intl (sebagian browser Android memakai
+   nama bulan Masehi + era "SM" untuk kalender Islam), nama bulan dipetakan sendiri. */
+const HIJRI_MONTHS = ['Muharram', 'Safar', "Rabi'ul Awal", "Rabi'ul Akhir", 'Jumadil Awal', 'Jumadil Akhir',
+  'Rajab', "Sya'ban", 'Ramadan', 'Syawal', "Dzulqa'dah", 'Dzulhijjah'];
+let fmtHijriNum = null;
+try {
+  const f = new Intl.DateTimeFormat('en-US-u-ca-islamic-umalqura-nu-latn', { day: 'numeric', month: 'numeric', year: 'numeric', timeZone: 'UTC' });
+  if (/^islamic/.test(f.resolvedOptions().calendar)) fmtHijriNum = f;
+} catch { /* tidak didukung */ }
+
+// Fallback aritmetika (kalender Hijriah tabular) bila Intl tidak mendukung kalender Islam.
+function hijriTabular(d) {
+  const jd = Math.floor(d.getTime() / 86400000) + 2440588; // Julian Day Number (UTC)
+  let l = jd - 1948440 + 10632;
+  const n = Math.floor((l - 1) / 10631);
+  l = l - 10631 * n + 354;
+  const j = Math.floor((10985 - l) / 5316) * Math.floor((50 * l) / 17719) + Math.floor(l / 5670) * Math.floor((43 * l) / 15238);
+  l = l - Math.floor((30 - j) / 15) * Math.floor((17719 * j) / 50) - Math.floor(j / 16) * Math.floor((15238 * j) / 43) + 29;
+  const month = Math.floor((24 * l) / 709);
+  return { day: l - Math.floor((709 * month) / 24), month, year: 30 * n + j - 30 };
+}
+
+function hijriParts(d) {
+  if (fmtHijriNum) {
+    try {
+      const p = {};
+      for (const { type, value } of fmtHijriNum.formatToParts(d)) p[type] = parseInt(value, 10);
+      if (p.day >= 1 && p.day <= 30 && p.month >= 1 && p.month <= 12 && p.year > 1300) return p;
+    } catch { /* lanjut ke fallback */ }
+  }
+  return hijriTabular(d);
+}
+
+function formatHijri(d) {
+  const h = hijriParts(d);
+  return `${h.day} ${HIJRI_MONTHS[h.month - 1]} ${h.year} H`;
+}
 
 /* ---------- state ---------- */
 const savedCity = store.get('js.city', null);
@@ -154,7 +189,7 @@ function renderToday() {
   for (const k of KEYS) cards.get(k).time.textContent = row[k];
   const d = cityDate();
   $('dateGreg').textContent = fmtGreg.format(d);
-  $('dateHijri').textContent = fmtHijri ? fmtHijri.format(d) : '';
+  $('dateHijri').textContent = formatHijri(d);
   state.cardSig = '';
 }
 

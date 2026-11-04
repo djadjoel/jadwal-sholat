@@ -1,14 +1,14 @@
 /* Service worker: app shell offline + cache jadwal (network-first). */
 'use strict';
 
-const VERSION = '1.0.0';
+const VERSION = '1.0.1';
 const SHELL = `shell-${VERSION}`;
 const DATA = 'data-v1';
 const DATA_MAX = 40;
 const ASSETS = [
   './',
-  'assets/css/app.css?v=1.0.0',
-  'assets/js/app.js?v=1.0.0',
+  'assets/css/app.css?v=1.0.1',
+  'assets/js/app.js?v=1.0.1',
   'assets/img/icon.svg',
   'manifest.webmanifest',
 ];

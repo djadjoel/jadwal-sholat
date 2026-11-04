@@ -1,6 +1,6 @@
 # Jadwal Sholat
 
-[![Deploy on Hostinger](https://assets.hostinger.com/vps/deploy.svg)](https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/USERNAME/jadwal-sholat/main/docker-compose.yml&REFERRALCODE=KODE_REFERRAL)
+[![Deploy on Hostinger](https://assets.hostinger.com/vps/deploy.svg)](https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/djadjoel/jadwal-sholat/main/docker-compose.yml&REFERRALCODE=HMMDJADJOUVL)
 
 Aplikasi jadwal sholat untuk 500+ kabupaten/kota di Indonesia. Data dari **Bimas Islam Kementerian Agama RI** melalui API publik MyQuran (`api.myquran.com/v2`).
 
@@ -25,7 +25,7 @@ Impor repo ini di Vercel (Framework Preset: **Other**, tanpa build command). `ve
 
 ### Docker di server sendiri
 ```bash
-curl -O https://raw.githubusercontent.com/USERNAME/jadwal-sholat/main/docker-compose.yml
+curl -O https://raw.githubusercontent.com/djadjoel/jadwal-sholat/main/docker-compose.yml
 DOMAIN=sholat.contoh.id docker compose up -d
 ```
 
@@ -59,7 +59,7 @@ Unggah semua berkas ke folder web (PHP ≥ 8.1 dengan ekstensi cURL). `.htaccess
 
 ## Pengembangan
 - Saat pindah versi aset, naikkan `?v=` di `index.html` dan `VERSION`/`ASSETS` di `sw.js`.
-- Image Docker dibangun otomatis oleh GitHub Actions (`.github/workflows/docker.yml`) ke `ghcr.io/USERNAME/jadwal-sholat` setiap push ke `main`.
+- Image Docker dibangun otomatis oleh GitHub Actions (`.github/workflows/docker.yml`) ke `ghcr.io/djadjoel/jadwal-sholat` setiap push ke `main`.
 
 ## Lisensi
 [MIT](LICENSE). Data jadwal © Bimas Islam Kementerian Agama RI; data lokasi © kontributor OpenStreetMap.
