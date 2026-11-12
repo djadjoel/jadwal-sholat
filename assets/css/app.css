@@ -309,6 +309,9 @@ body[data-phase="dusk"] .stars, body[data-phase="dawn"] .stars { opacity: .35; }
 .footer { padding-top: 28px; padding-bottom: max(32px, env(safe-area-inset-bottom)); color: var(--faint); font-size: .82rem; text-align: center; }
 .footer p { max-width: 720px; margin: 0 auto; }
 .footer strong { color: var(--muted); }
+.footer__credit { margin-top: 10px !important; }
+.footer a { color: var(--muted); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.footer a:hover, .footer a:focus-visible { color: #f6c56f; }
 
 /* ----- Dialog kota ------------------------------------------------------ */
 .city-dialog {

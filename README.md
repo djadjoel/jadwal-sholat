@@ -2,6 +2,8 @@
 
 [![Deploy on Hostinger](https://assets.hostinger.com/vps/deploy.svg)](https://www.hostinger.com/docker-hosting?compose_url=https://raw.githubusercontent.com/djadjoel/jadwal-sholat/main/docker-compose.yml&REFERRALCODE=HMMDJADJOUVL)
 
+Aplikasi dibuat oleh [bantenweb.com](https://bantenweb.com).
+
 Aplikasi jadwal sholat untuk 500+ kabupaten/kota di Indonesia. Data dari **Bimas Islam Kementerian Agama RI** melalui API publik MyQuran (`api.myquran.com/v2`).
 
 - Jadwal harian & bulanan, hitung mundur ke waktu sholat berikutnya
